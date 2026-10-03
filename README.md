@@ -1,21 +1,21 @@
 # MacroSnap
 
-MacroSnap is a Streamlit-powered AI nutrition assistant that helps users estimate calories and macros from meal photos or text descriptions. It can chat with the user about food, summarize the day, and send a WhatsApp-ready nutrition summary using Twilio.
+MacroSnap is a Streamlit app that helps users estimate calories and macros from meal photos or text descriptions. It lets people chat about food, track meals in a short conversation history, and email a daily nutrition summary.
 
 ## Features
 
 - Upload a meal photo or describe a meal in chat
-- Estimate calories and macro breakdowns with Google Gemini
-- Maintain a short conversation history for meal tracking
-- Send a summarized nutrition update to WhatsApp via Twilio
-- Simple onboarding flow for name and phone number
+- Estimate calories and macro breakdowns using Google Gemini
+- Keep a short conversation history for meal tracking
+- Send a summarized nutrition update by email
+- Simple onboarding flow for name and email
 
 ## Tech Stack
 
 - Python
 - Streamlit
 - Google GenAI (Gemini)
-- Twilio
+- Gmail SMTP
 
 ## Project Structure
 
@@ -29,7 +29,7 @@ Before running the app, make sure you have:
 
 - Python 3.10+
 - A Google Gemini API key
-- A Twilio account with WhatsApp messaging enabled
+- A Gmail account with an app password for SMTP
 
 ## Setup
 
@@ -51,12 +51,11 @@ Before running the app, make sure you have:
 
    ```toml
    GEMINI_API_KEY = "your_gemini_api_key"
-   TWILIO_ACCOUNT_SID = "your_twilio_account_sid"
-   TWILIO_AUTH_TOKEN = "your_twilio_auth_token"
-   TWILIO_WHATSAPP_FROM = "whatsapp:+14155238886"
+   GMAIL_ADDRESS = "your_email@gmail.com"
+   GMAIL_APP_PASSWORD = "your_gmail_app_password"
    ```
 
-   Replace the Twilio number with your actual WhatsApp-enabled Twilio outbound number.
+   For Gmail, generate an app password in your Google account settings and use that value in `GMAIL_APP_PASSWORD`.
 
 ## Run the app
 
@@ -72,13 +71,14 @@ http://localhost:8501
 
 ## How it works
 
-- The user enters their name and WhatsApp number on first launch.
-- The app creates a Gemini chat session with a nutrition-focused system prompt.
+- On first launch, the user enters their name and email.
+- The app creates a Gemini chat session using a nutrition-focused system prompt.
 - The user can either send text or upload a meal image.
 - Gemini estimates the meal's calories and macros.
-- The user can press the WhatsApp button to receive a daily summary via text message.
+- The user can send the current chat summary to their email using Gmail SMTP.
 
 ## Notes
 
 - This project expects secrets to be stored in `.streamlit/secrets.toml` and will not run without them.
-- The app uses a simple prompt-based estimation workflow, so results are approximate and intended for casual tracking.
+- The app uses a prompt-based estimation workflow, so results are approximate and intended for casual tracking.
+- The app currently uses Gmail email sending rather than SMS or WhatsApp messaging.
